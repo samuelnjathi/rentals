@@ -1,0 +1,154 @@
+<%- include("partials/head") %>
+<%- include("partials/header") %>
+<%- include("partials/sidenav") %>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Payments</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Payments</li>
+            </ol>
+            <!----------------------------Add Button---------------------->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end ">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-plus"></i>
+                    Record New Payment
+                  </button>
+            </div>
+          <!----------------------------Summary Card---------------------->    
+            <div class="card bg-primary text-white mb-4 mt-3 align-items-center justify-content-between text-center">
+                <div class="card-body">
+                     <h3><%= new Date().toLocaleString('default', {month: 'long'}) %> Payments</h3>
+                    <h2><%= totalPaymentsForCurrentMonth %></h2>
+                </div>
+            </div>
+            <!----------------------------Modal---------------------->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <form action="/payments" method="post" autocomplete="off">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Record Payment</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="tenants" class="form-label"><b>Select Tenant</b></label>
+                        <select id="tenantsSelection" class="form-select" name="tenant">
+                            <option selected>Select Tenant</option>
+                            <% tenants.forEach(tenant => { %>
+                                <option value="<%= tenant.id %>"><%= tenant.first_name %> (Hse: <%= tenant.house_id %>)</option>
+                            <% }); %> 
+                        </select>
+                        <div class="mt-2">
+                            <label for="invoiceItem" class="form-label"><b>Payment Item</b></label>
+                            <select id="invoiceItem" class="form-select" name="item">
+                                <option selected>Select Payment Item</option>
+                                <option value="rent">Rent</option>
+                                <option value="electricity">Electricity</option>
+                                <option value="water">Water</option>
+                                <option value="garbage">Garbage</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <label for="paidAmount" class="form-label"><b>Paid Amount</b></label>
+                            <input type="number" class="form-control" placeholder="Enter Paid Amount" name="amount">
+                        </div>
+                        <div class="mt-2">
+                            <label for="paymentDate" class="form-label"><b>Payment Date</b></label>
+                            <input type="date" class="form-control" placeholder="Enter Payment date" name="date">
+                        </div>
+                        <div class="mt-2">
+                            <label for="paymentMethod" class="form-label"><b>Select Payment Method</b></label>
+                            <select id="paymentMethod" class="form-select" name="method">
+                                <option selected>Select Payment Method</option>
+                                <option value="cash">Cash</option>
+                                <option value="Mpesa">M-pesa</option>
+                                <option value="bank">Bank</option>
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <label for="paymentId" class="form-label"><b>Payment ID/ Reference No.</b></label>
+                            <input type="text" class="form-control" placeholder="Enter Payment ID No." name="id">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Record Payment</button>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              </div>
+            <!----------------------------table---------------------->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Payments List
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Tenant</th>
+                                <th>House NO.</th>
+                                <th>Ref/ID NO.</th>
+                                <th>Method</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Date</th>
+                                <th>Tenant</th>
+                                <th>House NO.</th>
+                                <th>Ref/ID NO.</th>
+                                <th>Method</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <% payments.forEach(p => { %>
+                                <tr>
+                                    <td><%= p.payment_date %></td>
+                                    <td><%= p.first_name %> <%= p.last_name %></td>
+                                    <td><%= p.house_number %></td>
+                                    <td><%= p.payment_id %></td>
+                                    <td><%= p.payment_method %></td>
+                                    <td><%= p.payment_item %></td>
+                                    <td><%= p.paid_amount %></td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" href="#" role="button">View</a>
+                                        <a class="btn btn-primary btn-sm" href="#" role="button">Edit</a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!----------------------------Delete Modal--------------------------->                        
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h5>Are you sure you want to delete payment?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                        <a class="btn btn-danger btn-sm" href="payments/delete/<%= p.id %>" role="button">Delete</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+<%- include("partials/footer") %>

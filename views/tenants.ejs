@@ -1,0 +1,144 @@
+<%- include("partials/head") %>
+<%- include("partials/header") %>
+<%- include("partials/sidenav") %>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Tenants</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Tenants</li>
+            </ol>
+            <!----------------------------Add Button---------------------->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end ">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">
+                    <i class="fas fa-plus"></i>
+                    Add New Tenant
+                  </button>
+            </div>
+           <!----------------------------Summary Card---------------------->    
+            <div class="card bg-primary text-white mb-4 mt-3 align-items-center justify-content-between text-center">
+                <div class="card-body">
+                        <h3>Total Tenants</h3>
+                        <h1><%= tenantsTable.length %></h1>  
+                </div>
+            </div>
+            
+            <!----------------------------Form Modal--------------------------->
+            <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <form action="/tenants" method="post">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Tenant</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                            <label for="houseNumber" class="form-label"><b>House NO.</b></label>
+                            <select id="houseNUmber" class="form-select" name="houseNumber">
+                                <option selected>Select House NO.</option>
+                                <% houses.forEach(house => { %>
+                                    <option value="<%= house.house_number %>">No. <%= house.house_number %> (<%= house.house_type %>: <%= house.monthly_rate %>)</option>
+                                <% }); %>
+                            </select>
+                        <div class="mt-2">
+                            <label for="name" class="form-label"><b>Tenant's Name</b></label>
+                            <input type="text" class="form-control" placeholder="Enter Tenant's First Name" autocomplete="off" name="fname">
+                        </div>
+                        <div class="mt-1">
+                            <input type="text" class="form-control" placeholder="Enter Tenant's Last Name" autocomplete="off" name="lname">
+                        </div>
+                        <div class="mt-2">
+                            <label for="phone" class="form-label"><b>Tenant Phone Name</b></label>
+                            <input type="number" class="form-control" placeholder="Enter Tenant's Phone Number" autocomplete="off" name="phone">
+                        </div>
+                        <div class="mt-2">
+                            <label for="deposit" class="form-label"><b>Deposit</b></label>
+                            <input type="number" class="form-control" placeholder="Enter Rent Deposit" autocomplete="off" name="rent">
+                        </div>
+                        <div class="mt-1">
+                            <input type="number" class="form-control" placeholder="Enter Electricity deposit" autocomplete="off" name="electricity">
+                        </div>
+                        <div class="mt-2">
+                            <label for="move-in-date" class="form-label"><b>Move In Date</b></label>
+                            <input type="date" class="form-control" placeholder="Enter Move In Date" name="date">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Tenant</button>
+                    </div>
+                </div>
+                </div>
+            </form>
+            </div>                    
+        
+            <!----------------------------table---------------------->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Tenants List
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Tenant Name</th>
+                                <th>House NO.</th>
+                                <th>Phone NO.</th>
+                                <th>Monthly Rate</th>
+                                <th>Balance</th>
+                                <th>Last Payment</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Tenant Name</th>
+                                <th>House NO.</th>
+                                <th>Phone NO.</th>
+                                <th>Monthly Rate</th>
+                                <th>Balance</th>
+                                <th>Last Payment</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <% tenantsTable.forEach(t => { %>
+                                <tr>
+                                    <td><%= t.first_name %> <%= t.last_name %></td>
+                                    <td><%= t.house_number%></td>
+                                    <td>0<%= t.phone_number  %></td>
+                                    <td><%= t.monthly_rate %></td>
+                                    <td>3000</td>
+                                    <td><%= t.payment_date %></td>  
+                                    <td>
+                                        <a class="btn btn-success btn-sm" href="tenants/view/<%= t.id %>" role="button">View</a>
+                                        <a class="btn btn-primary btn-sm" href="tenants/edit/<%= t.id %>" role="button">Edit</a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            Delete
+                                        </button>
+                                        
+                                    </td>
+                                </tr>
+                                <!----------------------------Delete Modal--------------------------->                        
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h5>Are you sure you want to delete tenant?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                        <a id="deleteButton" class="btn btn-danger btn-sm" href="tenants/delete/<%= t.id %>" role="button">Delete</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+<%- include("partials/footer") %>

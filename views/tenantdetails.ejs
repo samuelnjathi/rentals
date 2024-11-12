@@ -1,0 +1,47 @@
+<%- include("partials/head") %>
+<%- include("partials/header") %>
+<%- include("partials/sidenav") %>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Tenant's Details</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Tenant's Details</li>
+            </ol>
+            <div class="py-4">
+                <a class="btn btn-secondary" href="<%= prevPage %>" role="button">
+                    <i class="fas fa-arrow-left"></i> Back</a>
+            </div>
+            
+            <table class="table">
+                <tbody>
+                  <tr class="table-primary">
+                      <td>Tenant's Name</td>
+                      <th><%= tenant.first_name %> <%= tenant.last_name %></th>
+                    </tr>
+                  <tr class="table-secondary">
+                    <td>House Number</td>
+                    <th><%= tenant.house_id %></th>
+                  </tr>
+                  <tr class="table-success">
+                    <td>Phone Number</td>
+                    <th>0<%= tenant.phone_number %></th>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>Rent Deposit</td>
+                    <th><%= tenant.rent_deposit %></th>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>Electricity Deposit</td>
+                    <th><%= tenant.electricity_deposit %></th>
+                  </tr>
+                  <tr class="table-info">
+                    <td>Move In Date</td>
+                    <th><%= tenant.move_in_date %></th>
+                  </tr>
+                </tbody>
+            </table>
+            
+        </div>
+    </main>
+<%- include("partials/footer") %>

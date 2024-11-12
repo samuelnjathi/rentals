@@ -1,0 +1,104 @@
+<%- include("partials/head") %>
+<%- include("partials/header") %>
+<%- include("partials/sidenav") %>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Houses</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Houses</li>
+            </ol>
+            <!----------------------------Add Button---------------------->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end ">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-plus"></i>
+                   Add New House
+                  </button>
+            </div>
+           <!----------------------------Summary Card---------------------->    
+            <div class="card bg-primary text-white mb-4 mt-3 align-items-center justify-content-between text-center">
+                <div class="card-body">
+                     <h3>Total Houses</h3>
+                    <h1><%= houses.length %></h1>
+                </div>
+            </div>
+            <!----------------------------Modal------------------------>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <form action="/houses" method="post">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Add New House</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="houseNumber" class="form-label"><b>House NO.</b></label>
+                        <input type="number" class="form-control" placeholder="Enter House Number" name="houseNumber">
+                        <div class="mt-2">
+                            <label for="houseType" class="form-label"><b>House Type</b></label>
+                            <select id="houseType" class="form-select" name="type">
+                                <option selected>Select House Type</option>
+                                <option value="single">Single</option>
+                                <option value="bedsitter">Bedsitter</option>
+                                <option value="double">Double</option>
+                                <option value="one bedroom">One Bedroom</option>
+                                <option value="two bedroom">Two Bedroom</option>
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <label for="rate" class="form-label"><b>Monthly Rate</b></label>
+                            <input type="number" class="form-control" placeholder="Enter Amount" name="rate">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Add House</button>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              </div>
+            <!----------------------------table---------------------->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Houses List
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>House NO.</th>
+                                <th>House Type</th>
+                                <th>Monthly Rate</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>House NO.</th>
+                                <th>House Type</th>
+                                <th>Monthly Rate</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                            <tbody>
+                                <% houses.forEach(house => {  %>
+                                <tr>
+                                    <td><%= house.house_number %></td>
+                                    <td><%= house.house_type %></td>
+                                    <td><%= house.monthly_rate %></td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" href="#" role="button">View</a>
+                                        <a class="btn btn-primary btn-sm" href="#" role="button">Edit</a>
+                                        <a class="btn btn-danger btn-sm" href="#" role="button">Delete</a>
+                                    </td>     
+                                </tr>
+                                <%  }); %> 
+                            </tbody> 
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+<%- include("partials/footer") %>

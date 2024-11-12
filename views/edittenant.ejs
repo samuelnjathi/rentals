@@ -1,0 +1,49 @@
+<%- include("partials/head") %>
+<%- include("partials/header") %>
+<%- include("partials/sidenav") %>
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Edit Tenant's Details</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Edit Tenant's Details</li>
+            </ol>
+            <div class="mb-4">
+                <a class="btn btn-outline-secondary" href="<%= prevPage %>" role="button">
+                    <i class="fas fa-arrow-left"></i> Back</a>
+            </div>
+            
+                    <form action="/tenants/edit/<%= tenant.id %>" method="post">  
+                            <label for="houseNumber" class="form-label"><b>House NO.</b></label>
+                            <select id="houseNUmber" class="form-select" name="houseNumber">
+                                <option selected>Select House NO.</option>
+                                <% houses.forEach(house => { %>
+                                    <option value="<%= tenant.house_id %>">No. <%= house.house_number %> (<%= house.house_type %>: <%= house.monthly_rate %>)</option>
+                                <% }); %>
+                            </select>
+                        <div class="mt-2">
+                            <label for="name" class="form-label"><b>Tenant's Name</b></label>
+                            <input type="text" class="form-control" value="<%= tenant.first_name %>" autocomplete="off" name="fname">
+                        </div>
+                        <div class="mt-1">
+                            <input type="text" class="form-control" value="<%= tenant.last_name %>" autocomplete="off" name="lname">
+                        </div>
+                        <div class="mt-2">
+                            <label for="phone" class="form-label"><b>Tenant Phone Name</b></label>
+                            <input type="text" class="form-control" value="<%= tenant.phone_number %>" autocomplete="off" name="phone">
+                        </div>
+                        <div class="mt-2">
+                            <label for="deposit" class="form-label"><b>Deposit</b></label>
+                            <input type="text" class="form-control" value="<%= tenant.rent_deposit %>" autocomplete="off" name="rent">
+                        </div>
+                        <div class="mt-1">
+                            <input type="text" class="form-control" value="<%= tenant.electricity_deposit %>" autocomplete="off" name="electricity">
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Edit Tenant</button>
+                        </div>
+                    </form>
+
+        </div>
+    </main>
+<%- include("partials/footer") %>
