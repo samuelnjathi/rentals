@@ -91,9 +91,25 @@
                                     <td>
                                         <a class="btn btn-success btn-sm" href="#" role="button">View</a>
                                         <a class="btn btn-primary btn-sm" href="#" role="button">Edit</a>
-                                        <a class="btn btn-danger btn-sm" href="#" role="button">Delete</a>
+                                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#houseDelete">
+                                            Delete
+                                        </button>
                                     </td>     
                                 </tr>
+                                <!----------------------------Delete Modal--------------------------->                        
+                                <div class="modal fade" id="houseDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <h5>Are you sure you want to delete tenant?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                        <a id="deleteButton" class="btn btn-danger btn-sm" href="houses/delete/<%= house.id %>" role="button">Delete</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                                 <%  }); %> 
                             </tbody> 
                     </table>

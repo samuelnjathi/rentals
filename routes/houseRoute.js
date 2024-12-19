@@ -36,4 +36,31 @@ router.post("/",async (req, res) => {
 
 });
 
+router.post("/edit/:id",async (req, res) => {
+    const id = parseInt(req.params.id);
+    const {houseNumber, houseType, monthlyRate} = req.body;
+
+    try {
+        await db.query("UPDATE houses SET house_number = $1, house_type = $2, monthly_rate = $3 WHERE id = $4",
+            [houseNumber, houseType, monthlyRate, id]
+        );
+        res.redirect("/houses");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({message: "Error updating house"});
+    }
+});
+
+router.get("/delete/:id",async (req, res) => {
+    const id = parseInt(req.params.id);
+
+    try {
+        await db.query("DELETE FROM houses WHERE id = $1", [id]);
+        res.redirect("/houses");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({message: "Error deleting house"});
+    }
+});
+
 export default router;
